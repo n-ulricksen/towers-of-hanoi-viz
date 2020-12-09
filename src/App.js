@@ -104,17 +104,11 @@ function App() {
   }
 
   function onRingCountChange(e) {
-    if (e.target.value < MIN_RING_COUNT || e.target.value > MAX_RING_COUNT) {
-      return;
-    }
     setRingCount(e.target.value);
     resetTowers();
   }
 
   function onSpeedChange(e) {
-    if (e.target.value < MIN_SPEED || e.target.value > MAX_SPEED) {
-      return;
-    }
     setSpeed(e.target.value);
     resetTowers();
   }
@@ -130,6 +124,8 @@ function App() {
           <input
             className="number-input"
             type="number"
+            min={MIN_RING_COUNT}
+            max={MAX_RING_COUNT}
             value={ringCount}
             onChange={onRingCountChange}
             onBlur={onRingCountChange}
@@ -139,7 +135,9 @@ function App() {
           Speed:{" "}
           <input
             className="number-input"
-            type="number"
+            type="range"
+            min={MIN_SPEED}
+            max={MAX_SPEED}
             value={speed}
             onChange={onSpeedChange}
             onBlur={onSpeedChange}
