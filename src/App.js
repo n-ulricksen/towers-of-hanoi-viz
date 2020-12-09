@@ -3,20 +3,34 @@ import { useState } from "react";
 import Tower from "./Tower.js";
 import "./App.css";
 
-const INITIAL_START_TOWER = [7, 6, 5, 4, 3, 2, 1];
+const DEFAULT_RING_COUNT = 3;
+const MIN_RING_COUNT = 2;
+const MAX_RING_COUNT = 9;
+
+const DEFAULT_SPEED = 5;
+const MIN_SPEED = 1;
+const MAX_SPEED = 10;
 
 let timers = [];
 
 function App() {
-  const [tower0, setTower0] = useState(INITIAL_START_TOWER);
+  const [ringCount, setRingCount] = useState(DEFAULT_RING_COUNT);
+  const [speed, setSpeed] = useState(DEFAULT_SPEED);
+
+  const [tower0, setTower0] = useState(generateStartRings(ringCount));
   const [tower1, setTower1] = useState([]);
   const [tower2, setTower2] = useState([]);
 
   const towers = [tower0, tower1, tower2];
 
+  // Calculate moves required to solve Towers of Hanoi puzzle, and then
+  // apply the moves to the Ring components.
   function solveHanoi(n) {
     let moves = [];
     const _solveHanoi = (n, from, to, spare) => {
+      if (n < 1) {
+        return;
+      }
       if (n === 1) {
         const move = [from, to];
         moves.push(move);
@@ -32,7 +46,10 @@ function App() {
     // at any time by clearing all timers and resetting to original state.
     let timer;
     moves.forEach((move, i) => {
-      timer = setTimeout(() => moveRing(move[0], move[1]), (1 + i) * 200);
+      timer = setTimeout(
+        () => moveRing(move[0], move[1]),
+        (1 + i) * (100 + 1000 / speed)
+      );
       timers.push(timer);
     });
   }
@@ -57,15 +74,49 @@ function App() {
     setTower2(towers[2]);
   }
 
+  function generateStartRings(n) {
+    let ret = [];
+    for (let i = n; i > 0; i--) {
+      ret.push(i);
+    }
+    return ret;
+  }
+
   function reset() {
+    resetInputs();
+    resetTowers();
+  }
+
+  function resetTowers() {
     for (let i = 0; i < timers.length; i++) {
       clearTimeout(timers[i]);
     }
 
-    towers[0] = INITIAL_START_TOWER;
+    towers[0] = generateStartRings(ringCount);
     towers[1] = [];
     towers[2] = [];
     updateTowersState();
+  }
+
+  function resetInputs() {
+    setRingCount(DEFAULT_RING_COUNT);
+    setSpeed(DEFAULT_SPEED);
+  }
+
+  function onRingCountChange(e) {
+    if (e.target.value < MIN_RING_COUNT || e.target.value > MAX_RING_COUNT) {
+      return;
+    }
+    setRingCount(e.target.value);
+    resetTowers();
+  }
+
+  function onSpeedChange(e) {
+    if (e.target.value < MIN_SPEED || e.target.value > MAX_SPEED) {
+      return;
+    }
+    setSpeed(e.target.value);
+    resetTowers();
   }
 
   return (
@@ -73,10 +124,34 @@ function App() {
       <Tower rings={tower0} />
       <Tower rings={tower1} />
       <Tower rings={tower2} />
-      <button onClick={() => solveHanoi(INITIAL_START_TOWER.length)}>
-        Solve!
-      </button>
-      <button onClick={reset}>Reset</button>
+      <div className="controls">
+        <div className="number-controls">
+          Number of rings:{" "}
+          <input
+            className="number-input"
+            type="number"
+            value={ringCount}
+            onChange={onRingCountChange}
+            onBlur={onRingCountChange}
+            onClick={onRingCountChange}
+          />
+          <br />
+          Speed:{" "}
+          <input
+            className="number-input"
+            type="number"
+            value={speed}
+            onChange={onSpeedChange}
+            onBlur={onSpeedChange}
+            onClick={onSpeedChange}
+          />
+        </div>
+        <hr />
+        <div className="buttons">
+          <button onClick={() => solveHanoi(tower0.length)}>Solve!</button>
+          <button onClick={reset}>Reset</button>
+        </div>
+      </div>
     </div>
   );
 }

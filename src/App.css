@@ -49,3 +49,22 @@
   background-color: #7c7a75;
   margin: 0 auto;
 }
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  /* width: 200px; */
+  /* background-color: green; */
+}
+
+.number-controls {
+  text-align: right;
+}
+
+.buttons > button {
+  width: 50%;
+}
+
+.number-input {
+  width: 40px;
+}
