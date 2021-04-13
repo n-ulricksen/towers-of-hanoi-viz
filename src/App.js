@@ -115,39 +115,44 @@ function App() {
 
   return (
     <div className="App">
-      <Tower rings={tower0} />
-      <Tower rings={tower1} />
-      <Tower rings={tower2} />
-      <div className="controls">
-        <div className="number-controls">
-          Number of rings:{" "}
-          <input
-            className="number-input"
-            type="number"
-            min={MIN_RING_COUNT}
-            max={MAX_RING_COUNT}
-            value={ringCount}
-            onChange={onRingCountChange}
-            onBlur={onRingCountChange}
-            onClick={onRingCountChange}
-          />
-          <br />
-          Speed:{" "}
-          <input
-            className="number-input"
-            type="range"
-            min={MIN_SPEED}
-            max={MAX_SPEED}
-            value={speed}
-            onChange={onSpeedChange}
-            onBlur={onSpeedChange}
-            onClick={onSpeedChange}
-          />
-        </div>
-        <hr />
-        <div className="buttons">
-          <button onClick={() => solveHanoi(tower0.length)}>Solve!</button>
-          <button onClick={reset}>Reset</button>
+      <div className="background">
+        <h2 className="title">Towers of Hanoi</h2>
+        <div className="tower-container">
+          <Tower rings={tower0} />
+          <Tower rings={tower1} />
+          <Tower rings={tower2} />
+          <div className="controls">
+            <div className="number-controls">
+              Number of rings:{" "}
+              <input
+                className="number-input"
+                type="number"
+                min={MIN_RING_COUNT}
+                max={MAX_RING_COUNT}
+                value={ringCount}
+                onChange={onRingCountChange}
+                onBlur={onRingCountChange}
+                onClick={onRingCountChange}
+              />
+              <br />
+              Speed:{" "}
+              <input
+                className="number-input"
+                type="range"
+                min={MIN_SPEED}
+                max={MAX_SPEED}
+                value={speed}
+                onChange={onSpeedChange}
+                onBlur={onSpeedChange}
+                onClick={onSpeedChange}
+              />
+            </div>
+            <hr />
+            <div className="buttons">
+              <button onClick={() => solveHanoi(tower0.length)}>Solve!</button>
+              <button onClick={reset}>Reset</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -1,9 +1,28 @@
 .App {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.background {
   text-align: center;
+  height: 440px;
+  width: 880px;
+  background-color: #c6c6c6;
+  border-radius: 15px;
+}
+
+.tower-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+}
+
+.title {
+    font-size: 36px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .Tower {
